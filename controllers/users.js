@@ -1,9 +1,9 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
+const { getCurrentUserId } = require('../middlewares/auth');
 
 module.exports.getInfoUser = (req, res, next) => {
-  const { email } = req.body;
-  User.findOne({ email }).then((user) => {
+  User.findById(getCurrentUserId(req)).then((user) => {
     if (!user) {
       //throw new Error
     }
