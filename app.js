@@ -1,6 +1,7 @@
 const express = require('express');
 require('dotenv').config();
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const { usersRouter, articlesRouter } = require('./routes');
 const { registerUser, login } = require('./controllers/users');
