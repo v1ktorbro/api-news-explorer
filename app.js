@@ -5,8 +5,10 @@ const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const { usersRouter, articlesRouter } = require('./routes');
 const { registerUser, login } = require('./controllers/users');
+const { authorization } = require('./middlewares/auth');
 
 const app = express();
+app.use(cookieParser());
 
 const { PORT = 3000 } = process.env;
 
@@ -20,8 +22,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.post('/signup', registerUser);
 app.post('/signin', login);
-app.use('/users', usersRouter);
-app.use('/articles', articlesRouter);
+app.use('/users', authorization, usersRouter);
+app.use('/articles', authorization, articlesRouter);
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
