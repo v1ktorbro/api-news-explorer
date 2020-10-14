@@ -3,8 +3,11 @@ require('dotenv').config();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const { usersRouter, articlesRouter } = require('./routes');
+const { registerUser, login } = require('./controllers/users');
 
 const app = express();
+
+const { PORT = 3000 } = process.env;
 
 mongoose.connect('mongodb://localhost:27017/newsdb', {
   useNewUrlParser: true,
@@ -14,10 +17,10 @@ mongoose.connect('mongodb://localhost:27017/newsdb', {
 });
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.post('/signup', registerUser);
+app.post('/signin', login);
 app.use('/users', usersRouter);
 app.use('/articles', articlesRouter);
-
-const { PORT = 3000 } = process.env;
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
