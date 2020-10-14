@@ -14,7 +14,8 @@ const articleSchema = new mongoose.Schema({
     required: true,
   },
   date: {
-    type: String,
+    type: Date,
+    default: Date.now(),
     required: true,
   },
   source: {
@@ -34,6 +35,6 @@ const articleSchema = new mongoose.Schema({
     ref: 'user',
     required: true,
   },
-});
+}, { versionKey: false });
 
 module.exports = mongoose.model('article', articleSchema);
