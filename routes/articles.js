@@ -4,3 +4,5 @@ const { getArticlesUser, createArticle, deleteArticle } = require('../controller
 router.get('/', getArticlesUser);
 router.post('/', createArticle);
 router.delete('/:id', deleteArticle);
+
+module.exports = router;
