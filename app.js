@@ -1,5 +1,6 @@
 const express = require('express');
 require('dotenv').config();
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const { usersRouter, articlesRouter } = require('./routes');
 
@@ -11,7 +12,8 @@ mongoose.connect('mongodb://localhost:27017/newsdb', {
   useFindAndModify: false,
   useUnifiedTopology: true,
 });
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/users', usersRouter);
 app.use('/articles', articlesRouter);
 
