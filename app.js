@@ -31,6 +31,8 @@ app.get('*', (req, res) => {
   throw new NotFound('Запрашиваемый ресурс не найден');
 });
 
+app.disable('etag');
+
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`Сервер работает на ${PORT} порту `);
