@@ -1,7 +1,6 @@
 const Article = require('../models/article');
 const { getCurrentUserId } = require('../middlewares/auth');
-const NotFound = require('../errors/NotFound');
-const Forbidden = require('../errors/Forbidden');
+const { NotFound, Forbidden } = require('../errors/index');
 
 module.exports.getArticlesUser = (req, res, next) => {
   Article.find({}).then((articles) => {
