@@ -28,7 +28,7 @@ module.exports.deleteArticle = (req, res, next) => {
     }
     const ownerArticle = article.owner.toString();
     if (ownerArticle !== getCurrentUserId(req)) {
-      throw new Forbidden('Вы не можете удалять чужую статью');
+      throw new Forbidden('Вы не можете удалить чужую статью');
     }
     return Article.deleteOne({ _id: id }).then(() => res.status(200).send(`Карточка ${id} удалена`));
   }).catch(next);
