@@ -33,6 +33,15 @@ app.get('*', (req, res) => {
 
 app.disable('etag');
 
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+  const { statusCode = 500, message } = err;
+  if (message === 'jwt expired') {
+    return res.status(401).send({ message: 'JWT просрочен' });
+  }
+  return res.status(statusCode).send({ message: statusCode === 500 ? 'На сервере произошла ошибка' : message });
+});
+
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`Сервер работает на ${PORT} порту `);
