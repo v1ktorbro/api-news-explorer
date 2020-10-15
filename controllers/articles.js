@@ -13,10 +13,10 @@ module.exports.getArticlesUser = (req, res, next) => {
 
 module.exports.createArticle = (req, res, next) => {
   const {
-    keyword, title, text, source, link, image,
+    keyword, title, text, date, source, link, image,
   } = req.body;
   Article.create({
-    keyword, title, text, source, link, image, owner: getCurrentUserId(req),
+    keyword, title, text, date, source, link, image, owner: getCurrentUserId(req),
   }).then((article) => res.status(201).send(article)).catch(next);
 };
 
