@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { Unauthorized } = require('../errors/index');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -25,11 +26,11 @@ const userSchema = new mongoose.Schema({
 userSchema.statics.findUserByCredentials = function (email, password) {
   return this.findOne({ email }).select('+password').then((user) => {
     if (!user) {
-      //throw new Error
+      throw new Unauthorized('Пароль и/или почта введены неверно');
     }
     return bcrypt.compare(password, user.password).then((matched) => {
       if (!matched) {
-        //throw new
+        throw new Unauthorized('Пароль и/или почта введены неверно');
       }
       const token = jwt.sign(
         { _id: user._id },
