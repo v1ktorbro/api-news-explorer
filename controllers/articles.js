@@ -3,7 +3,7 @@ const { getCurrentUserId } = require('../middlewares/auth');
 const { NotFound, Forbidden } = require('../errors/index');
 
 module.exports.getArticlesUser = (req, res, next) => {
-  Article.find({}).then((articles) => {
+  Article.find({ owner: getCurrentUserId(req) }).then((articles) => {
     if (!articles) {
       throw new NotFound('Не удалось загрузить статьи');
     }
