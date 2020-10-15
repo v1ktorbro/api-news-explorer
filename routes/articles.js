@@ -20,7 +20,7 @@ router.post('/', celebrate({
 }), createArticle);
 
 router.delete('/:id', celebrate({
-  body: Joi.object({
+  params: Joi.object({
     id: Joi.objectId(),
   }),
 }), deleteArticle);
