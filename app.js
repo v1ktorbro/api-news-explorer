@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const { usersRouter, articlesRouter } = require('./routes');
 const { registerUser, login } = require('./controllers/users');
 const { authorization } = require('./middlewares/auth');
+const { NotFound } = require('./errors/index');
 
 const app = express();
 app.use(cookieParser());
@@ -24,6 +25,11 @@ app.post('/signup', registerUser);
 app.post('/signin', login);
 app.use('/users', authorization, usersRouter);
 app.use('/articles', authorization, articlesRouter);
+
+// eslint-disable-next-line no-unused-vars
+app.get('*', (req, res) => {
+  throw new NotFound('Запрашиваемый ресурс не найден');
+});
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
