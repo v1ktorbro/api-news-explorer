@@ -1,11 +1,12 @@
 const Article = require('../models/article');
 const { getCurrentUserId } = require('../middlewares/auth');
+const NotFound = require('../errors/NotFound');
+const Forbidden = require('../errors/Forbidden');
 
 module.exports.getArticlesUser = (req, res, next) => {
   Article.find({}).then((articles) => {
     if (!articles) {
-      //throw new NotFound
-      res.send('нет ничего чувак')
+      throw new NotFound('Не удалось загрузить статьи');
     }
     return res.status(200).send(articles);
   }).catch(next);
@@ -22,12 +23,14 @@ module.exports.createArticle = (req, res, next) => {
 
 module.exports.deleteArticle = (req, res, next) => {
   const { id } = req.params;
-  Article.findOne({ _id: id }).then((article) => {
+  Article.findOne({ _id: id }).select('+owner').then((article) => {
     if (!article) {
-      //throw new статья не сущ или удалена
-      res.send('нет ничего чувак')
+      throw new NotFound('Карточка не существует, либо уже была удалена');
     }
-    //сделать проверку currentCard.owner.toString() !== req.user._id и кинуть Forbidden
+    const ownerArticle = article.owner.toString();
+    if (ownerArticle !== getCurrentUserId(req)) {
+      throw new Forbidden('Вы не можете удалять чужую статью');
+    }
     return Article.deleteOne({ _id: id }).then(() => res.status(200).send(`Карточка ${id} удалена`));
   }).catch(next);
 };
