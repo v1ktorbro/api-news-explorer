@@ -17,7 +17,7 @@ module.exports.registerUser = (req, res, next) => {
   const email = req.body.email.toLowerCase();
   User.findOne({ email }).then((findEmail) => {
     if (findEmail) {
-      throw new EmailError(`${findEmail} уже зарегистрирован`);
+      throw new EmailError(`${findEmail.email} уже зарегистрирован`);
     }
     return bcrypt.hash(password, 10).then((hash) => {
       User.create({ email, password: hash, name }).then((user) => {

@@ -8,7 +8,7 @@ const rateLimit = require('express-rate-limit');
 const { errors } = require('celebrate');
 const { usersRouter, articlesRouter } = require('./routes');
 const { registerUser, login } = require('./controllers/users');
-const { authorization } = require('./middlewares/auth');
+const { authorization, protectionLoginRoute, protectionRegisterRoute } = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { NotFound } = require('./errors/index');
 
@@ -39,8 +39,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(requestLogger);
 
-app.post('/signup', registerUser);
-app.post('/signin', login);
+app.post('/signup', protectionRegisterRoute, registerUser);
+app.post('/signin', protectionLoginRoute, login);
 app.use('/users', authorization, usersRouter);
 app.use('/articles', authorization, articlesRouter);
 
