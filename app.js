@@ -3,6 +3,7 @@ require('dotenv').config();
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
+const rateLimit = require('express-rate-limit');
 const { usersRouter, articlesRouter } = require('./routes');
 const { registerUser, login } = require('./controllers/users');
 const { authorization } = require('./middlewares/auth');
@@ -10,9 +11,15 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { NotFound } = require('./errors/index');
 
 const app = express();
-app.use(cookieParser());
 
 const { PORT = 3000 } = process.env;
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, //  15 min
+  max: 99,
+  message: 'За последние 15 минут было сделано не менеее 100 запросов. В целях защиты системы от DoS-атак, пожалуйста, повторите запрос позже',
+});
+app.use(limiter);
 
 mongoose.connect('mongodb://localhost:27017/newsdb', {
   useNewUrlParser: true,
@@ -20,13 +27,19 @@ mongoose.connect('mongodb://localhost:27017/newsdb', {
   useFindAndModify: false,
   useUnifiedTopology: true,
 });
+
+app.use(cookieParser());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(requestLogger);
+
 app.post('/signup', registerUser);
 app.post('/signin', login);
 app.use('/users', authorization, usersRouter);
 app.use('/articles', authorization, articlesRouter);
+
 app.use(errorLogger);
 
 // eslint-disable-next-line no-unused-vars
