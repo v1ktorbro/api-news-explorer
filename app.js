@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const rateLimit = require('express-rate-limit');
+const { errors } = require('celebrate');
 const { usersRouter, articlesRouter } = require('./routes');
 const { registerUser, login } = require('./controllers/users');
 const { authorization } = require('./middlewares/auth');
@@ -49,9 +50,12 @@ app.get('*', (req, res) => {
 
 app.disable('etag');
 
+app.use(errors());
+
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
+  console.log(err)
   if (message === 'jwt expired') {
     return res.status(401).send({ message: 'JWT просрочен' });
   }
