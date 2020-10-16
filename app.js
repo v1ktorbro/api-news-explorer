@@ -16,14 +16,11 @@ const app = express();
 
 const { PORT = 3000 } = process.env;
 
-app.use('*', cors());
-
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, //  15 min
   max: 99,
   message: 'За последние 15 минут было сделано не менеее 100 запросов. В целях защиты системы от DoS-атак, пожалуйста, повторите запрос позже',
 });
-app.use(limiter);
 
 mongoose.connect('mongodb://localhost:27017/newsdb', {
   useNewUrlParser: true,
@@ -34,8 +31,12 @@ mongoose.connect('mongodb://localhost:27017/newsdb', {
 
 app.use(cookieParser());
 
+app.use('*', cors());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(limiter);
 
 app.use(requestLogger);
 
