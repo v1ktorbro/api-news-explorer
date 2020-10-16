@@ -58,7 +58,6 @@ app.use(errors());
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
-  console.log(err)
   if (message === 'jwt expired') {
     return res.status(401).send({ message: 'JWT просрочен' });
   }
