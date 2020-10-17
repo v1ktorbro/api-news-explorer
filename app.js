@@ -65,7 +65,4 @@ app.use((err, req, res, next) => {
   return res.status(statusCode).send({ message: statusCode === 500 ? 'На сервере произошла ошибка' : message });
 });
 
-app.listen(PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Сервер работает на ${PORT} порту `);
-});
+app.listen(PORT);
