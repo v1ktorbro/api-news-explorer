@@ -23,14 +23,16 @@ POST запрос, в теле которого должно быть 2 поля
 
 * **Публчиный IPv4 178.154.224.47**
 
-**_для статей**
+**_для статей_**
 
       REST      |      Route            |         BODY          |  Result
                 |                       |                       | 
       GET       |      '/articles'      |                       | все сохраненные статьи юзера;
+                |                       |                       |
       POST      |      '/articles'      | keyword, title, text, |
-                                        |  date, source, link,  | создать статью;
-                                        |  image                | 
+                |                       |  date, source, link,  | создать статью;
+                |                       |  image                | 
+                |                       |                       |
       DELETE    |     '/articles/:id'   |                       | удалить свою статью;
 
 
