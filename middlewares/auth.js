@@ -16,7 +16,7 @@ module.exports.protectionRegisterRoute = celebrate({
   body: Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().min(4).required(),
-    name: Joi.string().min(2).max(30),
+    name: Joi.string().min(2).max(30).required(),
   }),
 });
 
