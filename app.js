@@ -45,12 +45,12 @@ app.post('/signin', protectionLoginRoute, login);
 app.use('/users', authorization, usersRouter);
 app.use('/articles', authorization, articlesRouter);
 
-app.use(errorLogger);
-
 // eslint-disable-next-line no-unused-vars
 app.get('*', (req, res) => {
   throw new NotFound('Запрашиваемый ресурс не найден');
 });
+
+app.use(errorLogger);
 
 app.disable('etag');
 
@@ -59,6 +59,7 @@ app.use(errors());
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
+  console.log(err)
   if (message === 'jwt expired') {
     return res.status(401).send({ message: 'JWT просрочен' });
   }
