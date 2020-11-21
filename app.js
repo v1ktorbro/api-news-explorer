@@ -31,7 +31,9 @@ mongoose.connect('mongodb://localhost:27017/newsdb', {
 
 app.use(cookieParser());
 
-app.use('*', cors());
+app.use('*', cors({
+  origin: true,
+}));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -1,9 +1,8 @@
 const Article = require('../models/article');
-const { getCurrentUserId } = require('../middlewares/auth');
 const { NotFound, Forbidden } = require('../errors/index');
 
 module.exports.getArticlesUser = (req, res, next) => {
-  Article.find({ owner: getCurrentUserId(req) }).then((articles) => {
+  Article.find({ owner: req.user._id }).then((articles) => {
     if (!articles) {
       throw new NotFound('Не удалось загрузить статьи');
     }
@@ -16,7 +15,7 @@ module.exports.createArticle = (req, res, next) => {
     keyword, title, text, date, source, link, image,
   } = req.body;
   Article.create({
-    keyword, title, text, date, source, link, image, owner: getCurrentUserId(req),
+    keyword, title, text, date, source, link, image, owner: req.user._id,
   }).then((article) => res.status(201).send(article)).catch(next);
 };
 
@@ -27,7 +26,7 @@ module.exports.deleteArticle = (req, res, next) => {
       throw new NotFound('Карточка не существует, либо уже была удалена');
     }
     const ownerArticle = article.owner.toString();
-    if (ownerArticle !== getCurrentUserId(req)) {
+    if (ownerArticle !== req.user._id) {
       throw new Forbidden('Вы не можете удалить чужую статью');
     }
     return Article.deleteOne({ _id: id }).then(() => res.status(200).send(`Карточка ${id} удалена`));
