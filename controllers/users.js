@@ -1,10 +1,9 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
-const { getCurrentUserId } = require('../middlewares/auth');
 const { NotFound, EmailError } = require('../errors/index');
 
 module.exports.getInfoUser = (req, res, next) => {
-  User.findById(getCurrentUserId(req)).then((user) => {
+  User.findById(req.user._id).then((user) => {
     if (!user) {
       throw new NotFound('Неправильно передан id пользователя');
     }
@@ -30,11 +29,7 @@ module.exports.registerUser = (req, res, next) => {
 module.exports.login = (req, res, next) => {
   const { password } = req.body;
   const email = req.body.email.toLowerCase();
-  User.findUserByCredentials(email, password).then((token) => {
-    res.status(200).cookie('jwt', token, {
-      maxAge: 3600000 * 24,
-      httpOnly: true,
-      sameSite: true,
-    }).end();
+  User.findUserByCredentials(email, password).then((jwt) => {
+    res.send({ token: jwt });
   }).catch(next);
 };
