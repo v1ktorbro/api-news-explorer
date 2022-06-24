@@ -3,7 +3,6 @@ const { celebrate, Joi } = require('celebrate');
 Joi.objectId = require('joi-objectid')(Joi);
 const { getArticlesUser, createArticle, deleteArticle } = require('../controllers/articles');
 
-// eslint-disable-next-line no-useless-escape
 const regExForLink = /^(https?:\/{2})?([\da-zа-я\.-]+)\.([\S]{2,})([\/\w \.-]*)*\/?$/;
 
 router.get('/', getArticlesUser);
