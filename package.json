@@ -1,5 +1,5 @@
 {
-  "name": "news-explorer-api",
+  "name": "api-news-explorer",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/v1ktorbro/news-explorer-api.git"
+    "url": "git+https://github.com/v1ktorbro/api-news-explorer.git"
   },
   "author": "Victor Abrosimov",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/v1ktorbro/news-explorer-api/issues"
+    "url": "https://github.com/v1ktorbro/api-news-explorer/issues"
   },
-  "homepage": "https://github.com/v1ktorbro/news-explorer-api#readme",
+  "homepage": "https://github.com/v1ktorbro/api-news-explorer#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
