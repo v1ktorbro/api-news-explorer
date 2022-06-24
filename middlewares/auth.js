@@ -33,5 +33,4 @@ module.exports.protectionLoginRoute = celebrate({
   }),
 });
 
-// eslint-disable-next-line no-unused-vars
-module.exports.getCurrentUserId = (req, res, next) => jwt.verify(req.cookies.jwt, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret')._id;
+module.exports.getCurrentUserId = (req) => jwt.verify(req.cookies.jwt, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret')._id;
