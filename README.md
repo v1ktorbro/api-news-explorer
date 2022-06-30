@@ -2,7 +2,7 @@
 **[ Base URL: newsexplorer.abrosimov.site/api ]**
 
 ## Инструменты :
-**EXPRESS,MONGO, NGINX, UBUNTU, POSTMAN.**
+**NODE.JS, EXPRESS.JS,MONGODB, NGINX, UBUNTU, POSTMAN.**
 
 ## Руты:
 
